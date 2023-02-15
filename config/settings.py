@@ -9,12 +9,14 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+env_path = BASE_DIR / '.env'
+load_dotenv(dotenv_path=env_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -80,7 +82,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.getenv('DB_NAME'),
         # 'ENGINE': 'django.db.backends.postgresql',
         # 'NAME': 'CustomUser',
         # 'HOST': 'localhost',
@@ -141,8 +143,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525
-EMAIL_HOST_USER = "anderymazo@mail.ru"
-EMAIL_HOST_PASSWORD = "NKs5DibqMtAS2uyCvwMG"
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
@@ -150,9 +152,9 @@ EMAIL_USE_SSL = False
 
 # EMAIL_HOST = 'smtp.yandex.ru'
 # EMAIL_PORT = 465
-# EMAIL_HOST_USER = 'fuckup@oscarbot.ru'
+# EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 # # EMAIL_HOST_USER = None
-# EMAIL_HOST_PASSWORD = 'AsTSNVv7pun9'
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 # # EMAIL_HOST_PASSWORD = None
 # EMAIL_USE_SSL = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
