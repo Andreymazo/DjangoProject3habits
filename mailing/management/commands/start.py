@@ -33,12 +33,12 @@ class Command(BaseCommand):
     #     print(i.text, i.topic, i.status)
     def handle(self, *args, **options):
 
-        H = set()
+        # H = set()# Mozhno iskluchit povtorenia otpravki odnih i teh zhe soobshenii
         def mailing():
             h = Emails.objects.all()
             m = Mssg.objects.all()
             mm = Client.objects.all()
-            for i in h:
+            for i in h:##Emails
                 for ii in mm:##Imena
                 # print(ii)
                     for iii in m:##Soobshenia

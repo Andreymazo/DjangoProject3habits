@@ -40,4 +40,4 @@ mailing()
 #     # context = {'object_list': Mssg.objects.all()}
 #     print(f'Messg sent >>>>>>, Result, {res}')#{Client.comment_set.count}
 #     context = {'res':res}
-#     return render(request, 'mailing/index1.html', context)
+#     return render(request, 'mailing/Client1.html', context)

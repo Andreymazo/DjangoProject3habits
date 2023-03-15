@@ -1,0 +1,67 @@
+{% extends 'users/base.html' %}
+{% block content %}
+
+<table class="table table-light table-striped table-hover align-items-center  text-center">
+          <thead>
+            <tr>
+
+                <th scope="col">привычка клиента №</th>
+                <th scope="col">место привычки</th>
+                <th scope="col">время привычки</th>
+                <th scope="col">действие</th>
+                <th scope="col">полезность</th>
+                <th scope="col">может быть ссвязана с полезной</th>
+                 <th scope="col">должна быть ссвязана с полезной</th>
+                 <th scope="col">периодичность</th>
+                <th scope="col">вознаграждение</th>
+                <th scope="col">время выполнения</th>
+                <th scope="col">опубликовано или нет</th>
+
+            </tr>
+          </thead>
+          <tbody>
+           {% for object in object_list %}
+                <tr>
+                    <td>
+                    <td>{{object.client}}</td>
+                    <td>{{object.place}}</td>
+                    <td>{{object.time_todo}}</td>
+                    <td>{{object.action}}</td>
+                    <td>{{object.useful}}</td>
+                    <td>{{object.if_pleasant}}</td>
+
+                    <td>{{object.if_connected}}</td>
+                    <td>{{object.period}}</td>
+                    <td>{{object.prize}}</td>
+                    <td>{{object.time_fulfil}}</td>
+                    <td>{{object.is_published}}</td>
+                     <td>{{object.get_status_display}}
+                        {% if perms.catalog.set_published_status %}
+                            {% if object.published_status %}
+
+                                <a class="btn btn-light" href="{% url 'users:status' object.pk %}">X</a>
+                                {% else %}
+                                <a class="btn btn-light" href="{% url 'users:status' object.pk %}">V</a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a class="btn.btn-default" href="{% url 'users:Product_form' object.pk %}" >Update</a>
+                        {% if perms.catalog.create_Product %}
+                            <a class="btn.btn-default" href="{% url 'users:Product_create' object.pk %}" >Create</a>
+                        {% endif %}
+                        {% if perms.catalog.delete_products %}
+                            <a class="btn.btn-default" href="{% url 'users:Product_delete' object.pk %}" >Delete</a>
+                        {% endif %}
+
+                    </td>
+
+
+
+                </tr>
+
+          {% endfor %}
+
+          </tbody>
+        </table>
+{% endblock %}

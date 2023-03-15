@@ -29,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'users.User'
 
 # Application definition
 
@@ -41,9 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_crontab',
+    'rest_framework',
     'mailing',
     'users',
+    'celery',
+    'redis'
 ]
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -141,22 +150,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_PORT = 2525
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-
-
-
-# EMAIL_HOST = 'smtp.yandex.ru'
-# EMAIL_PORT = 465
+# EMAIL_HOST = 'smtp.mail.ru'
+# EMAIL_PORT = 2525
 # EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-# # EMAIL_HOST_USER = None
 # EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-# # EMAIL_HOST_PASSWORD = None
-# EMAIL_USE_SSL = True
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+
+
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+# EMAIL_HOST_USER = None
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+# EMAIL_HOST_PASSWORD = None
+EMAIL_USE_SSL = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # 'post_office.EmailBackend'
 # CRONTAB_COMMAND_PREFIX = (
@@ -169,3 +178,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 CRONJOBS = [
     ('*/1 * * * *', 'mailing.cron.mailing')
 ]
+LOGIN_URL = 'habit_list/'
+LOGIN_REDIRECT_URL = 'habit_list/'
+LOGOUT_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'users.User'
