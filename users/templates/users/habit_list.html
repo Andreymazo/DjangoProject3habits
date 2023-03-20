@@ -46,17 +46,15 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a class="btn.btn-default" href="{% url 'users:Product_form' object.pk %}" >Update</a>
-                        {% if perms.catalog.create_Product %}
-                            <a class="btn.btn-default" href="{% url 'users:Product_create' object.pk %}" >Create</a>
+                        <a class="btn.btn-default" href="{% url 'users:habit_update' object.pk %}" >Update</a>
+                        {% if perms.users.create_habit %}
+                            <a class="btn.btn-default" href="{% url 'users:habit_create' object.pk %}" >Create</a>
                         {% endif %}
-                        {% if perms.catalog.delete_products %}
-                            <a class="btn.btn-default" href="{% url 'users:Product_delete' object.pk %}" >Delete</a>
+                        {% if perms.users.delete_habit %}
+                            <a class="btn.btn-default" href="{% url 'users:habit_delete' object.pk %}" >Delete</a>
                         {% endif %}
 
                     </td>
-
-
 
                 </tr>
 

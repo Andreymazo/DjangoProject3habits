@@ -18,10 +18,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # emails = ['test@testtest.ru', 'foreig_papa@papa.com']
-        useful_habits = ['laugh', 'read_something', 'walk_outside', 'excite_sports', 'walk_pet', 'feed_pet', 'hug_somebody', 'do_python', 'contrast_shower', 'russian_bath']
-        if_plesant_useful_habits = {'excite_sports': Habit.objects.get("walk_pet"),
-                                    'hug_somebody': Habit.objects.get("laugh")}
-
+        useful_habits = ['laugh', 'read_something', 'walk_outside', 'excite_sports', 'walk_pet', 'feed_pet',
+                         'hug_somebody', 'do_python', 'contrast_shower', 'russian_bath']
+        if_plesant_useful_habits = {'excite_sports': "walk_pet",
+                                    'hug_somebody': "laugh"}
+        # for i in Habit.objects.all().get(useful_habits[4]).first():
+        #     print(**i)
         if_connected_useful_habbits = {'read_something': 'do_python',
                                        'walk_pet': 'walk_outside',
                                        }
@@ -38,8 +40,8 @@ class Command(BaseCommand):
                        'walk_pet': 30,
                        'feed_pet': 25,
                        'hug_somebody': 15,
-                       'do_python':300,
-                       'contrast_shower':20,
+                       'do_python': 300,
+                       'contrast_shower': 20,
                        'russian_bath': 60
                        }
         prize = {'laugh': '1 choclate',
@@ -52,55 +54,111 @@ class Command(BaseCommand):
                  'do_python': '8 choclate',
                  'contrast_shower': '9 choclate',
                  'russian_bath': '10 choclate'}
-        period =   time_fulfil = {'laugh': 1,
-                       'read_something': 1,
-                       'walk_outside': 1,
-                       'excite_sports': 2,
-                       'walk_pet': 1,
-                       'feed_pet': 1,
-                       'hug_somebody': 1,
-                       'do_python':1,
-                       'contrast_shower':1,
-                       'russian_bath': 3}
-
+        period = time_fulfil = {'laugh': 1,
+                                'read_something': 1,
+                                'walk_outside': 1,
+                                'excite_sports': 2,
+                                'walk_pet': 1,
+                                'feed_pet': 1,
+                                'hug_somebody': 1,
+                                'do_python': 1,
+                                'contrast_shower': 1,
+                                'russian_bath': 3}
         habit_list = []
-        for i in User.objects.all():#.filter(id=Habit.client.id).first()
-            for ii in useful_habits:
+        ####################Snachala prosto zapolnyaem privicki bez kluchey self############
+        # for i in User.objects.all():  # .filter(id=Habit.client.id).first()
+        #     for ii in useful_habits:
+        # for iii in if_plesant_useful_habits:
+        #     # if ii == iii:
+        #     #     print('i, iii ------- ',  i, if_plesant_useful_habits[iii])
+        #     for iiii in if_connected_useful_habbits:
+        #         # if ii==iiii:
+        #         #     print('i, iiii============', i, if_connected_useful_habbits[iiii])
+        #         for iiiii in place:
+        #             # if ii==iiiii:
+        #             #     print('i, iiiii ________________', i, place[iiiii])
+        #             for iiiiii in time_fulfil:
+        #                 for iiiiiii in prize:
+        #                     for iiiiiiii in period:
+        #                         habit_list.append(
+        #
+        #                             Habit
+        #                                 (
+        #                                 client=i,
+        #                                 # place=place[iiiii],
+        #                                 action=ii,
+        #                                 useful=True,
+        # if_pleasant=if_plesant_useful_habits[iii],
+        # # {
+        #             "client":f'{if_plesant_useful_habits[iii].client}',
+        #             "place":f'{if_plesant_useful_habits[iii].place}',
+        #             "action":f'{if_plesant_useful_habits[iii].action}',
+        #             "useful": True,
+        #
+        # },
+        # if_connected=if_connected_useful_habbits[iiii],
+        # time_fulfil=time_fulfil[iiiiii],
+        # prize=prize[iiiiiii],
+        # period=period[iiiiiiii]
+        #                                     )
+        #                                 )
+        #
+        # Habit.objects.bulk_create(habit_list)
+        ##################################################Potom stavim kluchi kak ukazano vishe
+        habit_list = []
+        for ii in User.objects.all():
+            for i in Habit.objects.all().filter(client_id=ii):
+                # print(i)
                 for iii in if_plesant_useful_habits:
-                    # if ii == iii:
-                    #     print('i, iii ------- ',  i, if_plesant_useful_habits[iii])
-                    for iiii in if_connected_useful_habbits:
-                        # if ii==iiii:
-                        #     print('i, iiii============', i, if_connected_useful_habbits[iiii])
-                            for iiiii in place:
-                                # if ii==iiiii:
-                                #     print('i, iiiii ________________', i, place[iiiii])
-                                    for iiiiii in time_fulfil:
-                                        for iiiiiii in prize:
-                                            for iiiiiiii in period:
+                    print(iii,i)
+                    if iii == str(i):  ##Pitaus sravnit iteriruemuu privichku klienta s privichkoi sviazannoi s drugoi
+                        print("=++++++++++++++++++++++++++++++++++++++++++++++")
 
-                                                habit_list.append(
+                #         print(if_plesant_useful_habits[iii])
+        #                 habit_list.append(
+        #                     Habit(
+        #                         if_pleasant=if_plesant_useful_habits[iii],
+        #                     )
+        #                 )
+        # Habit.objects.bulk_create(habit_list)
 
-                                                Habit
-                                                    (
-                                                    client=i,
-                                                    place=place[iiiii],
-                                                    action=ii,
-                                                    useful=True,
-                                                    if_pleasant=#{**if_plesant_useful_habits[iii]},
-                                                    {
-                                                                "client":f'{if_plesant_useful_habits[iii].client}',
-                                                                "place":f'{if_plesant_useful_habits[iii].place}',
-                                                                "action":f'{if_plesant_useful_habits[iii].action}',
-                                                                "useful": True,
-
-                                                    },
-                                                    if_connected=if_connected_useful_habbits[iiii],
-                                                    time_fulfil=time_fulfil[iiiiii],
-                                                    prize=prize[iiiiiii],
-                                                    period=period[iiiiiiii]
-                                                )
-                                                )
-
-        Habit.objects.bulk_create(habit_list)
-
+        # habit_list = []
+        # for i in User.objects.all():#.filter(id=Habit.client.id).first()
+        #     for ii in useful_habits:
+        #         for iii in if_plesant_useful_habits:
+        #             # if ii == iii:
+        #             #     print('i, iii ------- ',  i, if_plesant_useful_habits[iii])
+        #             for iiii in if_connected_useful_habbits:
+        #                 # if ii==iiii:
+        #                 #     print('i, iiii============', i, if_connected_useful_habbits[iiii])
+        #                     for iiiii in place:
+        #                         # if ii==iiiii:
+        #                         #     print('i, iiiii ________________', i, place[iiiii])
+        #                             for iiiiii in time_fulfil:
+        #                                 for iiiiiii in prize:
+        #                                     for iiiiiiii in period:
+        #
+        #                                         habit_list.append(
+        #
+        #                                         Habit
+        #                                             (
+        #                                             client=i,
+        #                                             place=place[iiiii],
+        #                                             action=ii,
+        #                                             useful=True,
+        #                                             if_pleasant=if_plesant_useful_habits[iii],
+        #                                             # {
+        #                                             #             "client":f'{if_plesant_useful_habits[iii].client}',
+        #                                             #             "place":f'{if_plesant_useful_habits[iii].place}',
+        #                                             #             "action":f'{if_plesant_useful_habits[iii].action}',
+        #                                             #             "useful": True,
+        #                                             #
+        #                                             # },
+        #                                             if_connected=if_connected_useful_habbits[iiii],
+        #                                             time_fulfil=time_fulfil[iiiiii],
+        #                                             prize=prize[iiiiiii],
+        #                                             period=period[iiiiiiii]
+        #                                         )
+        #                                         )
+        #
+        # Habit.objects.bulk_create(habit_list)

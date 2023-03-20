@@ -46,19 +46,27 @@ class Habit(models.Model):
     time_todo = models.TimeField(auto_now_add=True, verbose_name='время, когда необходимо выполнять привычку')##Изменяется при изменении модели
     action = models.CharField(max_length=150, verbose_name='действие, которое представляет из себя привычка')
     useful = models.BooleanField(**NULLABLE, verbose_name='полезная привычка или нет', default=True)
-    if_pleasant = models.ForeignKey('self', **NULLABLE, on_delete=models.CASCADE, related_name='canbewith_useful', verbose_name='привычка, которую можно привязать к выполнению полезной привычки')
+
+    if_pleasant = models.ForeignKey('users.Habit', **NULLABLE, on_delete=models.CASCADE, related_name='canbewith_useful', verbose_name='привычка, которую можно привязать к выполнению полезной привычки')
+
+    # def filter_clients(self, instance): Nikak ne vvesti globalnoe ogranichenie
+    #     query_set = Habit.objects.all().filter(id=self.client_id)
+    #     print("------------------------", instance)
+    #     return query_set
     if_connected = models.ForeignKey('self', **NULLABLE, on_delete=models.CASCADE, related_name='mustbewith_useful', verbose_name='привычка, которая связана с другой привычкой, важно указывать для полезных привычек, но не для приятных')
-    period = models.CharField(max_length=100, verbose_name='периодичность выполнения привычки для напоминания в днях')
-    prize = models.CharField(max_length=150, verbose_name='чем пользователь должен себя вознаградить после выполнения')
-    time_fulfil = models.IntegerField(max_length=10, verbose_name='время, которое предположительно потратит пользователь на выполнение привычки')
+    period = models.CharField(max_length=100, verbose_name='периодичность выполнения привычки для напоминания в днях', **NULLABLE)
+    prize = models.CharField(max_length=150, verbose_name='чем пользователь должен себя вознаградить после выполнения', **NULLABLE)
+    time_fulfil = models.IntegerField(verbose_name='время, которое предположительно потратит пользователь на выполнение привычки', **NULLABLE)
     is_published = models.BooleanField(**NULLABLE, verbose_name='привычки можно публиковать в общий доступ, чтобы другие пользователи могли брать в пример чужие привычки', default=False)
 
-    class Meta:
-        permissions = [
-            ("set_is_published", "Can publish habit"),
-            # ("add_habit", "Can add habit"),
-            # ("delete_habit", "Can delete habit"),
-        ]
+    def __str__(self):
+        return f'{self.action}'# related to: {self.client}'
+    # class Meta:users_user_groups
+    #     permissions = [
+    #         ("set_is_published", "Can publish habit"),
+    #         # ("add_habit", "Can add habit"),
+    #         # ("delete_habit", "Can delete habit"),
+    #     ]
 
 
 
