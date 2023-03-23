@@ -15,8 +15,6 @@ class Mailinglog(models.Model):
     last_attempt = models.DateTimeField(auto_now=True)
 
 
-
-
 # class Emails(models.Model):#################ForeignKey  Client###########Hochu ostavit EmailField i FK
 #     email = models.EmailField(max_length=50, verbose_name='Email')######
 

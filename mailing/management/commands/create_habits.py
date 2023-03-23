@@ -66,28 +66,28 @@ class Command(BaseCommand):
                                 'russian_bath': 3}
         habit_list = []
         ####################Snachala prosto zapolnyaem privicki bez kluchey self############
-        # for i in User.objects.all():  # .filter(id=Habit.client.id).first()
-        #     for ii in useful_habits:
+        for i in User.objects.all():  # .filter(id=Habit.client.id).first()
+            for ii in useful_habits:
         # for iii in if_plesant_useful_habits:
         #     # if ii == iii:
         #     #     print('i, iii ------- ',  i, if_plesant_useful_habits[iii])
         #     for iiii in if_connected_useful_habbits:
         #         # if ii==iiii:
         #         #     print('i, iiii============', i, if_connected_useful_habbits[iiii])
-        #         for iiiii in place:
-        #             # if ii==iiiii:
-        #             #     print('i, iiiii ________________', i, place[iiiii])
-        #             for iiiiii in time_fulfil:
-        #                 for iiiiiii in prize:
-        #                     for iiiiiiii in period:
-        #                         habit_list.append(
-        #
-        #                             Habit
-        #                                 (
-        #                                 client=i,
-        #                                 # place=place[iiiii],
-        #                                 action=ii,
-        #                                 useful=True,
+                for iiiii in place:
+                    # if ii==iiiii:
+                    #     print('i, iiiii ________________', i, place[iiiii])
+                    for iiiiii in time_fulfil:
+                        for iiiiiii in prize:
+                            for iiiiiiii in period:
+                                habit_list.append(
+
+                                    Habit
+                                        (
+                                        client=i,
+                                        place=place[iiiii],
+                                        action=ii,
+                                        useful=True,
         # if_pleasant=if_plesant_useful_habits[iii],
         # # {
         #             "client":f'{if_plesant_useful_habits[iii].client}',
@@ -97,24 +97,30 @@ class Command(BaseCommand):
         #
         # },
         # if_connected=if_connected_useful_habbits[iiii],
-        # time_fulfil=time_fulfil[iiiiii],
-        # prize=prize[iiiiiii],
-        # period=period[iiiiiiii]
-        #                                     )
-        #                                 )
-        #
-        # Habit.objects.bulk_create(habit_list)
-        ##################################################Potom stavim kluchi kak ukazano vishe
-        habit_list = []
-        for ii in User.objects.all():
-            for i in Habit.objects.all().filter(client_id=ii):
-                # print(i)
-                for iii in if_plesant_useful_habits:
-                    print(iii,i)
-                    if iii == str(i):  ##Pitaus sravnit iteriruemuu privichku klienta s privichkoi sviazannoi s drugoi
-                        print("=++++++++++++++++++++++++++++++++++++++++++++++")
+                                      time_fulfil=time_fulfil[iiiiii],
+                                      prize=prize[iiiiiii],
+                                      period=period[iiiiiiii]
+                                            )
+                                                )
 
-                #         print(if_plesant_useful_habits[iii])
+        Habit.objects.bulk_create(habit_list)
+        ##################################################Potom stavim kluchi kak ukazano vishe
+        # habit_list = []
+        # for ii in User.objects.all():
+        #     for i in Habit.objects.all().filter(client_id=ii):
+        #         # print(i)
+        #         for iii in if_plesant_useful_habits:
+        #             # print(iii,i)
+        #             if iii == str(i):  ##Pitaus sravnit iteriruemuu privichku klienta s privichkoi sviazannoi s drugoi
+        #                 # print("=++++++++++++++++++++++++++++++++++++++++++++++")
+        #
+        #                 # print(if_plesant_useful_habits[iii])
+        #                 g = Habit.objects.all().filter(action=if_plesant_useful_habits[iii])
+        #                 for k in g:
+        #                     print(k)  # __dict__)
+        #                 i.if_pleasant = Habit(
+        #                         if_pleasant=Habit.objects.all().filter(action=if_plesant_useful_habits[iii]).first(),
+        #                     )
         #                 habit_list.append(
         #                     Habit(
         #                         if_pleasant=if_plesant_useful_habits[iii],

@@ -1,6 +1,10 @@
+from django import forms
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.contrib.auth.hashers import make_password
+from django.forms import ModelForm
+from rest_framework.exceptions import ValidationError
+
 NULLABLE = {'blank': True, 'null': True}
 
 class CustomUserManager(UserManager):
@@ -42,7 +46,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 class Habit(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE)
-    place = models.CharField(max_length=150, verbose_name='место', **NULLABLE)
+    place = models.CharField(max_length=150, verbose_name='место', default='Nowhere')
     time_todo = models.TimeField(auto_now_add=True, verbose_name='время, когда необходимо выполнять привычку')##Изменяется при изменении модели
     action = models.CharField(max_length=150, verbose_name='действие, которое представляет из себя привычка')
     useful = models.BooleanField(**NULLABLE, verbose_name='полезная привычка или нет', default=True)
@@ -54,9 +58,11 @@ class Habit(models.Model):
     #     print("------------------------", instance)
     #     return query_set
     if_connected = models.ForeignKey('self', **NULLABLE, on_delete=models.CASCADE, related_name='mustbewith_useful', verbose_name='привычка, которая связана с другой привычкой, важно указывать для полезных привычек, но не для приятных')
+
     period = models.CharField(max_length=100, verbose_name='периодичность выполнения привычки для напоминания в днях', **NULLABLE)
     prize = models.CharField(max_length=150, verbose_name='чем пользователь должен себя вознаградить после выполнения', **NULLABLE)
-    time_fulfil = models.IntegerField(verbose_name='время, которое предположительно потратит пользователь на выполнение привычки', **NULLABLE)
+
+    time_fulfil = models.IntegerField(max_length=120, verbose_name='время, которое предположительно потратит пользователь на выполнение привычки', **NULLABLE)
     is_published = models.BooleanField(**NULLABLE, verbose_name='привычки можно публиковать в общий доступ, чтобы другие пользователи могли брать в пример чужие привычки', default=False)
 
     def __str__(self):
@@ -67,6 +73,69 @@ class Habit(models.Model):
     #         # ("add_habit", "Can add habit"),
     #         # ("delete_habit", "Can delete habit"),
     #     ]
+    # class Meta:
+    #
+    #     fields = ('action', 'if_connected', 'prize', 'place', 'period')
+    #     # field = '__all__'
+# class HabitForm(ModelForm):
+#     model = Habit
+#     fields = '__all__'
 
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.prize and self.if_connected:
+            raise ValidationError('AYAYAYAYAY')
+        return self.prize
+#############################################################
+    # def clean(self):
+    #     clean_data = super(Habit, self).clean()#HabitForm, self
+    #     if_connected = clean_data['if_connected']
+    #     prize = clean_data['prize']
+    #     if if_connected and prize:
+    #         raise ValidationError("You may not choose both fields!")
+    #
+    #     return clean_data
+##############################################################
+    # def clean_if_connected(self):
+    #     # clean_data = super(Habit, self).clean()#HabitForm, self
+    #     if_connected = self.clean_if_connected['if_connected']
+    #     prize = self.clean_if_connected['prize']
+    #     if if_connected and prize:
+    #         raise ValidationError("You may not choose both fields!")
+    #
+    #     return self.clean_if_connected
+        #
+        # if_connected = self.clean_if_connected['if_connected']
+        # prize = self.clean_if_connected['prize']
+        # if if_connected and prize:
+        #     raise ValidationError
+        # return if_connected
+# class HabitForm(ModelForm):
+#     class Meta:
+#         model = Habit
+#         fields = ['action', 'if_connected', 'prize', 'place', 'period']
+                 #'__all__'
 
+    def clean_if_connected(self):
+        if_connected=self.clean_if_connected['if_connected']
+        prize = self.clean_if_connected['prize']
+        if if_connected and prize:
+            raise ValidationError
+        return if_connected
+    # def clean_prize(self):
+    #     if_connected = self.clean_prize['if_connected']
+    #     prize = self.clean_prize['prize']
+    #     if if_connected and prize:
+    #         raise ValidationError
+    #     return prize
+# class IntroductionForm(ModelForm):
+#     class Meta:
+#          ...
+# def clean_fieldA(self):
+#     fieldA = self.cleaned_data['fieldA']
+#     fieldB = self.cleaned_data['fieldB']
+#     if self.instance.fieldB == fieldB and  self.instance.fieldB == fieldA:
+#             raise ValidationError("You may not choose both fields")
+
+    # return fieldA
 
