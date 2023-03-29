@@ -26,9 +26,7 @@ SECRET_KEY = 'django-insecure-q+iy#s8ppk-@1l$r#8$q92e38+*)y95^qe2^!x1x_ujmcabmc(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -44,8 +42,10 @@ INSTALLED_APPS = [
     'mailing',
     'users',
     'celery',
-    'redis'
+    'redis',
+    'django_celery_beat',
 ]
+
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -84,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
@@ -100,7 +99,6 @@ DATABASES = {
         'PASSWORD': '123456',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -120,18 +118,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -148,8 +144,6 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
 # EMAIL_HOST = 'smtp.mail.ru'
 # EMAIL_PORT = 2525
 # EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
@@ -158,7 +152,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_USE_SSL = False
 
 
-
+BOT_TOKEN = os.getenv('BOT_TOKEN')
+BOT_URL = "https://api.telegram.org/bot%s/" % BOT_TOKEN
+MY_CHAT_ID = os.getenv('BOT_CHAT_ID')
+CHAT_ID='-1001902473862'##From getupdates
+    #'@habitReminderBot'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
@@ -174,7 +172,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # from mailing.models import Mssg
 # print(Mssg.topic)
-#, ['pos_arg1', 'pos_arg2'], {'verbose': 'key_arg'}
+# , ['pos_arg1', 'pos_arg2'], {'verbose': 'key_arg'}
 CRONJOBS = [
     ('*/1 * * * *', 'mailing.cron.mailing')
 ]
