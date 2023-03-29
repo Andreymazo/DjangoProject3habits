@@ -90,45 +90,49 @@ class Habit_listAPIView(generics.ListAPIView):
     def get(self, request, *args,
            **kwargs):  ##Funcia v sluchae esli pole time_to_doo_habit > 30 sec time, chego to delaet
         if request.method == 'GET':
-            send_telegram(self, request)#zapuskaet task (tam otsilka zacommenchana
+            print('++++++++++=========', self.list)
+            send_telegram()#zapuskaet task (tam otsilka zacommenchana#self.queryset, request
 
         textt = 'Time waits for nobody'
-        while True:
-            if request.method == 'GET':
-                text = 'something'
-                time.sleep(35)  ##Kazhdie 30 sec proveryaet pole time_to_doo_habit
-
-                # thread = threading.Thread(  # создание отдельного потока
-                #     target=print, args=("данные сайта обновились",))
-                # thread.start()
-                #now = time.time()
-                now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
-                a = Habit.objects.all()  # time_to_doo_habit.second
-                for ii in User.objects.all():
-                    for i in Habit.objects.all().filter(client_id=ii):
-                        time_compare = (now - i.updated_at).total_seconds() % 86400
-                        #seconds = ((i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second)
-                        try:
-                            seconds = ((
-                                                   i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second)
-                            if abs(time_compare-seconds) > 30:  # Esli menshe polminuti do vremeni, otsilaem
-                                print('Otsilaem*****************')  ###Zdes mozhno otsilat v telegramm
-                                response = requests.post(
-                                    f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text={i.action}')
-                                print(
-                                    response.json())  # {'ok': False, 'error_code': 400, 'description': 'Bad Request: chat not found'}
-    #                             send_message(text)
-    #                             if seconds:
-    #                                 response = requests.post(
-    #                                     f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text={i.action}')#Proverka
-    #                                 print(
-    #                                     response.json())
-                        except AttributeError as e:
-                            print(e)
-                            pass
-                        except TypeError as e:
-                            print(e)
-                            pass
+        ######################################################################################################
+    #     while True:
+    #         if request.method == 'GET':
+    #             text = 'something'
+    #             time.sleep(35)  ##Kazhdie 30 sec proveryaet pole time_to_doo_habit
+    #
+    #             # thread = threading.Thread(  # создание отдельного потока
+    #             #     target=print, args=("данные сайта обновились",))
+    #             # thread.start()
+    #             #now = time.time()
+    #             now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+    #             a = Habit.objects.all()  # time_to_doo_habit.second
+    #             for ii in User.objects.all():
+    #                 for i in Habit.objects.all().filter(client_id=ii):
+    #                     time_compare = (now - i.updated_at).total_seconds() % 86400
+    #                     #seconds = ((i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second)
+    #                     try:
+    #                         seconds = ((
+    #                                                i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second)
+    #                         if abs(time_compare-seconds) < 30:  # Esli menshe polminuti do vremeni, otsilaem
+    #                             print('Otsilaem*****************')  ###Zdes mozhno otsilat v telegramm
+    #                             response = requests.post(
+    #                                 f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text={i.action}')
+    #                             print(
+    #                                 response.json())  # {'ok': False, 'error_code': 400, 'description': 'Bad Request: chat not found'}
+    # #                             send_message(text)
+    # #                             if seconds:
+    # #                                 response = requests.post(
+    # #                                     f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text={i.action}')#Proverka
+    # #                                 print(
+    # #                                     response.json())
+    #
+    #                     except AttributeError as e:
+    #                         print(e)
+    #                         pass
+    #                     except TypeError as e:
+    #                         print(e)
+    #                         pass
+#############################################################################################3
     #                 # for i in a:
     #                 #     print(dir(i))
     #                 # delta = abs(Habit.time_to_doo_habit.second - now)
@@ -150,7 +154,8 @@ class Habit_listAPIView(generics.ListAPIView):
     #                 # bot = telepot.Bot(settings.BOT_TOKEN)
     #                 # bot.sendMessage(settings.CHAT_ID, textt)
     #                 print('++++++++++++++++++++++++')
-            return self.list(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
+        # return self.queryset(request, *args, **kwargs)
    ##################################################################################
     # def my_view(self, request):
     #         # <view logic>

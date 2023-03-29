@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'celery',
     'redis',
     'django_celery_beat',
+    "django_cron",
 ]
 
 REST_FRAMEWORK = {
@@ -63,7 +64,23 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+####################################################################"django_cron",https://django-cron.readthedocs.io/en/latest/installation.html
+##Now everytime you run the management command python manage.py runcrons all the crons will run if required.
+# from django_cron import CronJobBase, Schedule
+#
+# class MyCronJob(CronJobBase):
+#     RUN_EVERY_MINS = 120 # every 2 hours
+#
+#     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
+#     code = 'my_app.my_cron_job'    # a unique code
+#
+#     def do(self):
+#         pass    # do your thing here
+# CRON_CLASSES = [
+#     "my_app.cron.MyCronJob",
+#     # ...
+# ]
+####################################################################
 ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
@@ -139,6 +156,13 @@ STATIC_FILES_DIRS = (
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = "redis://127.0.0.1:6379/1"
+# CELERY_TIMEZONE = "Europe/Moscow"
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -154,8 +178,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 BOT_URL = "https://api.telegram.org/bot%s/" % BOT_TOKEN
-MY_CHAT_ID = os.getenv('BOT_CHAT_ID')
-CHAT_ID='-1001902473862'##From getupdates
+MY_CHAT_ID = os.getenv('MY_CHAT_ID')
+CHAT_ID = os.getenv('CHAT_ID')#'-1001902473862'###From getupdates
     #'@habitReminderBot'
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
@@ -174,8 +198,26 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # print(Mssg.topic)
 # , ['pos_arg1', 'pos_arg2'], {'verbose': 'key_arg'}
 CRONJOBS = [
-    ('*/1 * * * *', 'mailing.cron.mailing')
+    ('*/1 * * * *', 'users.tasks.send_telegram')
 ]
+REDIS_HOST = '0.0.0.0'
+REDIS_PORT = '6379'
+#CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_ACCEPT_CONTENT =['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_BEAT_SCHEDULE = {
+#         'task-first': {
+#         'task': 'app.tasks.one',
+#         'schedule': timedelta(seconds=1)
+#        },
+#       'task-second': {
+#         'task': 'app.tasks.two',
+#         'schedule': crontab(minute=0, hour='*/3,10-19')
+#       }
+# }
+
 LOGIN_URL = 'habit_list/'
 LOGIN_REDIRECT_URL = 'habit_list/'
 LOGOUT_REDIRECT_URL = '/'

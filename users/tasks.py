@@ -5,6 +5,7 @@ import pytz
 from celery import shared_task
 
 from config import settings
+from config.celery import app
 from users.models import Habit, User
 
 # await bot.send_message(chat_id=settings.BOT_CHAT_ID, text="Текст сообщения...")# release Python 3.13???????????
@@ -24,12 +25,12 @@ CHAT_ID = settings.CHAT_ID
 
 
 @shared_task
-def send_telegram(self, request, *args, **kwargs):  #
+def send_telegram():  #(self, request, *args, **kwargs)
     print('_______________________')
     textt = 'Time waits for nobody'
     while True:
-        if request.method == 'GET':
-            time.sleep(5)  ##Kazhdie 30 sec proveryaet pole time_to_doo_habit
+        #if request.method == 'GET':
+            time.sleep(25)  ##Kazhdie 30 sec proveryaet pole time_to_doo_habit
             # thread = threading.Thread(  # создание отдельного потока
             #     target=print, args=("данные сайта обновились",))
             # thread.start()
@@ -37,7 +38,7 @@ def send_telegram(self, request, *args, **kwargs):  #
             now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
             a = Habit.objects.all()  # time_to_doo_habit.second
             for ii in User.objects.all():
-                for i in Habit.objects.all().filter(client_id=ii):
+                for i in a.filter(client_id=ii):
                     time_compare = (now - i.updated_at).total_seconds() % 86400
 
                     try:
@@ -46,27 +47,31 @@ def send_telegram(self, request, *args, **kwargs):  #
                         # i.time_to_doo_habit = datetime.now().time()
                         seconds = (
                                               i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second
-                        # print(
-                        #     seconds)  ##Vsego secund vo vremeni dlia ispolnenia 86400 sec v sutk, ostatok ot 86400 nas interesuet
-
+                        # print(seconds)  ##Vsego secund vo vremeni dlia ispolnenia 86400 sec v sutk, ostatok ot 86400 nas interesuet
 
                         if abs(seconds - time_compare) < 30:  # Esli menshe polminuti do vremeni, otsilaem
                             print('Otsilaem *****************')  ###Zdes mozhno otsilat v telegramm
                         print('Ne otsilaem poka *****************')
-                        # send_message(textt)
+
                     except AttributeError as e:
                         print(e)
                         pass
                         # for i in a:
                         #     print(dir(i))
-                        # delta = abs(Habit.time_to_doo_habit.second - now)
-                print('now-----------', now)
-                ######################################################3
-                # bot.sendMessage(CHAT_ID, textt)#5015736552
-                # send_message(textt)
+                        # delta = abs(seconds - now)
+                print('now-----77777777777-----', now)
+                ######################################################Commentim chtobi ne slalo ######################
+                # response=bot.sendMessage(CHAT_ID, textt)#501573655
+                # print(response)
+                ################################################################################3
+                # params = {'chat_id': '-524797982', 'text': 'OKEY!', 'reply_to_message_id': 1508}
+                # response = bot.getUpdates()
+                # now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
 
-                # if delta < 30:
-                #     # if self.pk is not None:
-                #     #     now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
-                #     print('delta', delta)
-        return self.list(request, *args, **kwargs)
+        # return self.queryset(request, *args, **kwargs)
+        #self.queryset
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')
