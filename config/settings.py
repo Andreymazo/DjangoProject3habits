@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'redis',
     'django_celery_beat',
     "django_cron",
+    "drf_yasg"
 ]
+# SWAGGER_SETTINGS = { "DEFAULT_GENERATOR_CLASS": "rest_framework.schemas.generators.BaseSchemaGenerator", }
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
