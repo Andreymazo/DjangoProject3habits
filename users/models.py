@@ -73,6 +73,9 @@ class Habit(models.Model):
     is_published = models.BooleanField(**NULLABLE, verbose_name='привычки можно публиковать в общий доступ, чтобы другие пользователи могли брать в пример чужие привычки', default=False)
     updated_at = models.DateTimeField(auto_now=True)
     time_to_doo_habit = models.TimeField(**NULLABLE, verbose_name='время, когда необходимо выполнять привычку')##Изменяется при изменении модели
+    # class Meta:
+    #     # fields = '__all__'
+    #     f = ('action', 'if_connected', 'prize', 'place', 'period')
     def __str__(self):
         return f'{self.action} {self.time_to_doo_habit}'# related to: {self.client}'
     # class Meta:users_user_groups
@@ -80,20 +83,17 @@ class Habit(models.Model):
     #         ("set_is_published", "Can publish habit"),
     #         # ("add_habit", "Can add habit"),
     #         # ("delete_habit", "Can delete habit"),
-    #     ]
-    # class Meta:
-    #
-    #     fields = ('action', 'if_connected', 'prize', 'place', 'period')
     #     # field = '__all__'
 # class HabitForm(ModelForm):
 #     model = Habit
-#     fields = '__all__'
+#
 
     def clean(self):### Ne mogut odnovremenno bit i prize i if_connected
         from django.core.exceptions import ValidationError
         if self.prize and self.if_connected:
             raise ValidationError('AYAYAYAYAY')
         return self.prize
+
     def safe(self, *args, **kwargs):##Proveryaem na izmenenie polya
 
         while True:

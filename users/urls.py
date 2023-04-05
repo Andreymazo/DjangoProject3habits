@@ -5,6 +5,7 @@ from rest_framework import serializers, viewsets, routers
 # from rest_framework.authtoken.admin import User
 from django.contrib.auth.models import User
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from users.apps import UsersConfig
 from users.views import UserLoginView, SignupView, change_status, Habit_listAPIView, Habit_createAPIView, \
@@ -47,6 +48,8 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
 
     # path('register/', CustomRegisterView.as_view(template_name='users/register.html'), name='register'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('habit_list/', Habit_listAPIView.as_view(), name='habit_list'),
     path('habit_create/', Habit_createAPIView.as_view(), name='habit_create'),
     path('habit_update/<int:pk>/', Habit_updateAPIView.as_view(), name='habit_update'),

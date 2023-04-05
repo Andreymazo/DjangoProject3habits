@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -22,13 +23,12 @@ load_dotenv(dotenv_path=env_path)
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q+iy#s8ppk-@1l$r#8$q92e38+*)y95^qe2^!x1x_ujmcabmc('
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
+DEBUG = os.getenv('DEBUG')
 
-# Application definition
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_crontab',
     'rest_framework',
+    'rest_framework_simplejwt',
     'mailing',
     'users',
     'celery',
@@ -49,13 +50,38 @@ INSTALLED_APPS = [
 ]
 # SWAGGER_SETTINGS = { "DEFAULT_GENERATOR_CLASS": "rest_framework.schemas.generators.BaseSchemaGenerator", }
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
+# REST_FRAMEWORK = {
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     # or allow read-only access for unauthenticated users.
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     ]
+# }
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework.authentication.SessionAuthentication',
+#         'rest_framework.authentication.TokenAuthentication',
+#         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+#     )
+# }
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': [(
+#         'rest_framework_simplejwt.authentication.JWTAuthentication')],
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ]
+#
+# }
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=150),
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+#     "ROTATE_REFRESH_TOKENS": False,
+#     "BLACKLIST_AFTER_ROTATION": False,
+#     "UPDATE_LAST_LOGIN": False,
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -111,11 +137,11 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.getenv('DB_NAME'),
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
+        'NAME': 'postgres', #os.getenv('DB_NAME'),
+        'HOST':'db', # os.getenv('DB_HOST'),#
+        'PORT': '5432', #os.getenv('DB_PORT'),
+        'USER': 'postgres', #os.getenv('DB_USERNAME'),
+        'PASSWORD': '123456', # os.getenv('DB_PASSWORD'),
     }
 }
 
@@ -158,8 +184,8 @@ STATIC_FILES_DIRS = (
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-# CELERY_BROKER_URL = "redis://127.0.0.1:6379/1"
+# CELERY_BROKER_URL = 'redis://6379:6379/0'
+# CELERY_BROKER_URL = "redis://0001:6379/1"
 # CELERY_TIMEZONE = "Europe/Moscow"
 # CELERY_TASK_TRACK_STARTED = True
 # CELERY_TASK_TIME_LIMIT = 30 * 60
@@ -202,9 +228,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 CRONJOBS = [
     ('*/1 * * * *', 'users.tasks.send_telegram')
 ]
-REDIS_HOST = '0.0.0.0'
+REDIS_HOST = 'redis'
 REDIS_PORT = '6379'
-#CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 CELERY_ACCEPT_CONTENT =['application/json']
@@ -219,7 +245,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 #         'schedule': crontab(minute=0, hour='*/3,10-19')
 #       }
 # }
-
 LOGIN_URL = 'habit_list/'
 LOGIN_REDIRECT_URL = 'habit_list/'
 LOGOUT_REDIRECT_URL = '/'

@@ -32,6 +32,7 @@ class UserLoginView(LoginView):
     # form_class = UserCustomCreationForm
     success_url = reverse_lazy('users:habit_list')
     template_name = 'users/login.html'
+    # csrf_exempt (Otkluch csrf)
 
 
 class SignupView(CreateView):
@@ -354,7 +355,7 @@ class UserView(
 #                 return super(UserUpdateViewWithSubject, self).form_invalid(form)
 #         return super(UserUpdateViewWithSubject, self).form_valid(form)
 
-class UserUpdateViewWithHabit(CreateView):
+class UserUpdateViewWithHabit(CreateView):#Nuzhen UpdateView
     model = User
     form_class = UserForm
     success_url = reverse_lazy('mailing:Client_list')

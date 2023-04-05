@@ -6,6 +6,7 @@ from celery import Celery
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
 app = Celery('config')
+app.conf.broker_url = 'redis://0001:6379/0'
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
