@@ -21,8 +21,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-#      redis:
-#        condition: service_completed_successfully
 
     command: >
       sh -c "python3 manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
@@ -30,8 +28,6 @@ services:
     image: redis
     ports:
         - "0001:6379"
-#    command:  >
-#      sh -c "pip install redis-server==4.5.1"
 
   celery:
     image: latest
@@ -44,7 +40,6 @@ services:
       context: .
     command:  >
       sh -c "python3 -m celery -A config worker -l INFO"
-    ##python3 -m celery -A config worker -l INFO
 
     depends_on:
       - redis
@@ -52,7 +47,6 @@ services:
 volumes:
   db:
     driver: local
-#  pgdata:
 
 #########################################
 #version: '3'

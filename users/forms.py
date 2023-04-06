@@ -33,17 +33,5 @@ class HabitForm(forms.ModelForm):
         model = Habit
         fields = '__all__'#['action', 'if_connected', 'prize', 'place', 'period']
 
-        # class HabitForm(ModelForm):
-        #     model = Habit
-        #     fields = '__all__'
-    # def clean(self):
-    #     clean_data = super(HabitForm, self).clean()  # HabitForm, self
-    #     if_connected = clean_data['if_connected']
-    #     prize = clean_data['prize']
-    #     if if_connected and prize:
-    #         raise ValidationError("You may not choose both fields!")
-    #
-    #     return clean_data
-
 
 

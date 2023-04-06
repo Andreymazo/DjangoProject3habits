@@ -24,7 +24,7 @@ from users.seriaizers import HabitSerializer
 from users.tasks import send_telegram
 
 
-#from users.tasks import send_message
+# from users.tasks import send_message
 
 
 class UserLoginView(LoginView):
@@ -65,7 +65,7 @@ class SignupView(CreateView):
 #             self.object.save()
 #         return super().form_valid(form)
 
-class Habit_listAPIView(generics.ListAPIView):
+class HabitListAPIView(generics.ListAPIView):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
@@ -75,128 +75,130 @@ class Habit_listAPIView(generics.ListAPIView):
             return queryset.filter(client=self.request.user)  ## Kazhdii mozhet smotret tolko svoi privichki
         return queryset
 
-    #Channel https: // t.me / habitst
+    # Channel https: // t.me / habitst
     # BOT_CHAT_ID = settings.MY_CHAT_ID
     # telegramBot = telepot.Bot(settings.MY_CHAT_ID)
     # bot = telepot.Bot(settings.BOT_TOKEN)
     # #https://api.telegram.org/bot<token>/sendMessage?chat_id=<chatId>&text=Hello
     # response = requests.get(f'https://api.telegram.org/bot{settings.BOT_TOKEN}/getupdates')
     # a = response.json()
-    #{'ok': True, 'result': [{'update_id': 166459803, 'my_chat_member': {'chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'from': {'id': 5015736552, 'is_bot': False, 'first_name': 'Andrey', 'last_name': 'Mazo', 'username': 'AndreyMazo'}, 'date': 1680003349, 'old_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'left'}, 'new_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': False, 'can_post_messages': False, 'can_edit_messages': False, 'can_delete_messages': False, 'can_invite_users': False, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': False, 'is_anonymous': False, 'can_manage_voice_chats': False}}}, {'update_id': 166459804, 'my_chat_member': {'chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'from': {'id': 5015736552, 'is_bot': False, 'first_name': 'Andrey', 'last_name': 'Mazo', 'username': 'AndreyMazo'}, 'date': 1680003643, 'old_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': False, 'can_post_messages': False, 'can_edit_messages': False, 'can_delete_messages': False, 'can_invite_users': False, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': False, 'is_anonymous': False, 'can_manage_voice_chats': False}, 'new_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': False, 'can_post_messages': True, 'can_edit_messages': False, 'can_delete_messages': False, 'can_invite_users': False, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': False, 'is_anonymous': False, 'can_manage_voice_chats': False}}}, {'update_id': 166459805, 'my_chat_member': {'chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'from': {'id': 5015736552, 'is_bot': False, 'first_name': 'Andrey', 'last_name': 'Mazo', 'username': 'AndreyMazo'}, 'date': 1680003668, 'old_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': False, 'can_post_messages': True, 'can_edit_messages': False, 'can_delete_messages': False, 'can_invite_users': False, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': False, 'is_anonymous': False, 'can_manage_voice_chats': False}, 'new_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': True, 'can_post_messages': True, 'can_edit_messages': True, 'can_delete_messages': True, 'can_invite_users': True, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': True, 'is_anonymous': False, 'can_manage_voice_chats': True}}}, {'update_id': 166459806, 'channel_post': {'message_id': 2, 'sender_chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'date': 1680003871, 'text': 'test'}}]}
-#System check identified no issues (0 silenced).
+    # {'ok': True, 'result': [{'update_id': 166459803, 'my_chat_member': {'chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'from': {'id': 5015736552, 'is_bot': False, 'first_name': 'Andrey', 'last_name': 'Mazo', 'username': 'AndreyMazo'}, 'date': 1680003349, 'old_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'left'}, 'new_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': False, 'can_post_messages': False, 'can_edit_messages': False, 'can_delete_messages': False, 'can_invite_users': False, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': False, 'is_anonymous': False, 'can_manage_voice_chats': False}}}, {'update_id': 166459804, 'my_chat_member': {'chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'from': {'id': 5015736552, 'is_bot': False, 'first_name': 'Andrey', 'last_name': 'Mazo', 'username': 'AndreyMazo'}, 'date': 1680003643, 'old_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': False, 'can_post_messages': False, 'can_edit_messages': False, 'can_delete_messages': False, 'can_invite_users': False, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': False, 'is_anonymous': False, 'can_manage_voice_chats': False}, 'new_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': False, 'can_post_messages': True, 'can_edit_messages': False, 'can_delete_messages': False, 'can_invite_users': False, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': False, 'is_anonymous': False, 'can_manage_voice_chats': False}}}, {'update_id': 166459805, 'my_chat_member': {'chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'from': {'id': 5015736552, 'is_bot': False, 'first_name': 'Andrey', 'last_name': 'Mazo', 'username': 'AndreyMazo'}, 'date': 1680003668, 'old_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': False, 'can_post_messages': True, 'can_edit_messages': False, 'can_delete_messages': False, 'can_invite_users': False, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': False, 'is_anonymous': False, 'can_manage_voice_chats': False}, 'new_chat_member': {'user': {'id': 6193506005, 'is_bot': True, 'first_name': 'habit_reminder', 'username': 'habit_reminderbot'}, 'status': 'administrator', 'can_be_edited': False, 'can_manage_chat': True, 'can_change_info': True, 'can_post_messages': True, 'can_edit_messages': True, 'can_delete_messages': True, 'can_invite_users': True, 'can_restrict_members': True, 'can_promote_members': False, 'can_manage_video_chats': True, 'is_anonymous': False, 'can_manage_voice_chats': True}}}, {'update_id': 166459806, 'channel_post': {'message_id': 2, 'sender_chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'chat': {'id': -1001902473862, 'title': 'HabitStudyMazo', 'username': 'habitst', 'type': 'channel'}, 'date': 1680003871, 'text': 'test'}}]}
+    # System check identified no issues (0 silenced).
 
     # requests.get(f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.BOT_CHAT_ID}&text=Hello World!')
     ############################################################Otsilaet v channel 'Hello world'
 
     def get(self, request, *args,
-           **kwargs):  ##Funcia v sluchae esli pole time_to_doo_habit > 30 sec time, chego to delaet
+            **kwargs):  ##Funcia v sluchae esli pole time_to_doo_habit > 30 sec time, chego to delaet
         if request.method == 'GET':
             print('++++++++++=========', self.list)
-            send_telegram()#zapuskaet task (tam otsilka zacommenchana#self.queryset, request
+            send_telegram()  # zapuskaet task (tam otsilka zacommenchana#self.queryset, request
 
         textt = 'Time waits for nobody'
         ######################################################################################################
-    #     while True:
-    #         if request.method == 'GET':
-    #             text = 'something'
-    #             time.sleep(35)  ##Kazhdie 30 sec proveryaet pole time_to_doo_habit
-    #
-    #             # thread = threading.Thread(  # создание отдельного потока
-    #             #     target=print, args=("данные сайта обновились",))
-    #             # thread.start()
-    #             #now = time.time()
-    #             now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
-    #             a = Habit.objects.all()  # time_to_doo_habit.second
-    #             for ii in User.objects.all():
-    #                 for i in Habit.objects.all().filter(client_id=ii):
-    #                     time_compare = (now - i.updated_at).total_seconds() % 86400
-    #                     #seconds = ((i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second)
-    #                     try:
-    #                         seconds = ((
-    #                                                i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second)
-    #                         if abs(time_compare-seconds) < 30:  # Esli menshe polminuti do vremeni, otsilaem
-    #                             print('Otsilaem*****************')  ###Zdes mozhno otsilat v telegramm
-    #                             response = requests.post(
-    #                                 f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text={i.action}')
-    #                             print(
-    #                                 response.json())  # {'ok': False, 'error_code': 400, 'description': 'Bad Request: chat not found'}
-    # #                             send_message(text)
-    # #                             if seconds:
-    # #                                 response = requests.post(
-    # #                                     f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text={i.action}')#Proverka
-    # #                                 print(
-    # #                                     response.json())
-    #
-    #                     except AttributeError as e:
-    #                         print(e)
-    #                         pass
-    #                     except TypeError as e:
-    #                         print(e)
-    #                         pass
-#############################################################################################3
-    #                 # for i in a:
-    #                 #     print(dir(i))
-    #                 # delta = abs(Habit.time_to_doo_habit.second - now)
-    #                 print('now++++++++++++++++++++++', now)
-    #                 # if delta < 30:
-    #                 #     # if self.pk is not None:
-    #                 #     #     now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
-    #                 #     print('delta', delta)
-    #                 response = requests.post(
-    #                     f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text=Hello World!')
-    #                 print(response.json())#{'ok': False, 'error_code': 400, 'description': 'Bad Request: chat not found'}
-    #
-    #                 # response = requests.post(
-    #                 #     url=f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage',
-    #                 #     data={'chat_id': " -1001902473862", 'text': 'hello friend'}#settings.MY_CHAT_ID
-    #                 # )
-    #
-    #                 print(response.json())
-    #                 # bot = telepot.Bot(settings.BOT_TOKEN)
-    #                 # bot.sendMessage(settings.CHAT_ID, textt)
-    #                 print('++++++++++++++++++++++++')
+        #     while True:
+        #         if request.method == 'GET':
+        #             text = 'something'
+        #             time.sleep(35)  ##Kazhdie 30 sec proveryaet pole time_to_doo_habit
+        #
+        #             # thread = threading.Thread(  # создание отдельного потока
+        #             #     target=print, args=("данные сайта обновились",))
+        #             # thread.start()
+        #             #now = time.time()
+        #             now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+        #             a = Habit.objects.all()  # time_to_doo_habit.second
+        #             for ii in User.objects.all():
+        #                 for i in Habit.objects.all().filter(client_id=ii):
+        #                     time_compare = (now - i.updated_at).total_seconds() % 86400
+        #                     #seconds = ((i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second)
+        #                     try:
+        #                         seconds = ((
+        #                                                i.time_to_doo_habit.hour * 60 + i.time_to_doo_habit.minute) * 60 + i.time_to_doo_habit.second)
+        #                         if abs(time_compare-seconds) < 30:  # Esli menshe polminuti do vremeni, otsilaem
+        #                             print('Otsilaem*****************')  ###Zdes mozhno otsilat v telegramm
+        #                             response = requests.post(
+        #                                 f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text={i.action}')
+        #                             print(
+        #                                 response.json())  # {'ok': False, 'error_code': 400, 'description': 'Bad Request: chat not found'}
+        # #                             send_message(text)
+        # #                             if seconds:
+        # #                                 response = requests.post(
+        # #                                     f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text={i.action}')#Proverka
+        # #                                 print(
+        # #                                     response.json())
+        #
+        #                     except AttributeError as e:
+        #                         print(e)
+        #                         pass
+        #                     except TypeError as e:
+        #                         print(e)
+        #                         pass
+        #############################################################################################3
+        #                 # for i in a:
+        #                 #     print(dir(i))
+        #                 # delta = abs(Habit.time_to_doo_habit.second - now)
+        #                 print('now++++++++++++++++++++++', now)
+        #                 # if delta < 30:
+        #                 #     # if self.pk is not None:
+        #                 #     #     now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+        #                 #     print('delta', delta)
+        #                 response = requests.post(
+        #                     f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage?chat_id={settings.CHAT_ID}&text=Hello World!')
+        #                 print(response.json())#{'ok': False, 'error_code': 400, 'description': 'Bad Request: chat not found'}
+        #
+        #                 # response = requests.post(
+        #                 #     url=f'https://api.telegram.org/bot{settings.BOT_TOKEN}/sendMessage',
+        #                 #     data={'chat_id': " -1001902473862", 'text': 'hello friend'}#settings.MY_CHAT_ID
+        #                 # )
+        #
+        #                 print(response.json())
+        #                 # bot = telepot.Bot(settings.BOT_TOKEN)
+        #                 # bot.sendMessage(settings.CHAT_ID, textt)
+        #                 print('++++++++++++++++++++++++')
         return super().get(request, *args, **kwargs)
         # return self.queryset(request, *args, **kwargs)
-   ##################################################################################
-    # def my_view(self, request):
-    #         # <view logic>
-    #         while True:
-    #             if request.method == 'GET':
-    #                 time.sleep(1)  ##Kazhdie 25v sec proveryaet pole time_to_doo_habit
-    #                 # thread = threading.Thread(  # создание отдельного потока
-    #                 #     target=print, args=("данные сайта обновились",))
-    #                 # thread.start()
-    #                 now = time.time()
-    #                 delta = abs(Habit.time_to_doo_habit.second - now)
-    #                 print('now-----------', now)
-    #                 if delta < 30:
-    #                     # if self.pk is not None:
-    #                     #     now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
-    #                     print('delta', delta)
-    #                 print('_______________________')
-    #             return HttpResponse('result')
-    # def get(self, request, *args, **kwargs):##Proveryaem na izmenenie polya
-    #
-    #     while True:
-    #         if self.request
-    #         time.sleep(5)##Kazhdie 25v sec proveryaet pole time_to_doo_habit
-    #         # thread = threading.Thread(  # создание отдельного потока
-    #         #     target=print, args=("данные сайта обновились",))
-    #         # thread.start()
-    #         now = time.time()
-    #         delta = abs(self.time_to_doo_habit.second - now)
-    #         print('now-----------',now)
-    #         if delta < 30:
-    #         # if self.pk is not None:
-    #         #     now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
-    #             print('delta', delta)
-    #         print('_______________________')
-    #             # if (now - self.updated_at).seconds > 4*60*60:
-    #             #     send_notify_update.delay(self/pk)
-    #         super().
 
 
-class Habit_createAPIView(generics.CreateAPIView, CreateModelMixin):  # , HabitForm
+##################################################################################
+# def my_view(self, request):
+#         # <view logic>
+#         while True:
+#             if request.method == 'GET':
+#                 time.sleep(1)  ##Kazhdie 25v sec proveryaet pole time_to_doo_habit
+#                 # thread = threading.Thread(  # создание отдельного потока
+#                 #     target=print, args=("данные сайта обновились",))
+#                 # thread.start()
+#                 now = time.time()
+#                 delta = abs(Habit.time_to_doo_habit.second - now)
+#                 print('now-----------', now)
+#                 if delta < 30:
+#                     # if self.pk is not None:
+#                     #     now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+#                     print('delta', delta)
+#                 print('_______________________')
+#             return HttpResponse('result')
+# def get(self, request, *args, **kwargs):##Proveryaem na izmenenie polya
+#
+#     while True:
+#         if self.request
+#         time.sleep(5)##Kazhdie 25v sec proveryaet pole time_to_doo_habit
+#         # thread = threading.Thread(  # создание отдельного потока
+#         #     target=print, args=("данные сайта обновились",))
+#         # thread.start()
+#         now = time.time()
+#         delta = abs(self.time_to_doo_habit.second - now)
+#         print('now-----------',now)
+#         if delta < 30:
+#         # if self.pk is not None:
+#         #     now = datetime.datetime.now(pytz.timezone(settings.TIME_ZONE))
+#             print('delta', delta)
+#         print('_______________________')
+#             # if (now - self.updated_at).seconds > 4*60*60:
+#             #     send_notify_update.delay(self/pk)
+#         super().
+
+
+class HabitCreateAPIView(generics.CreateAPIView, CreateModelMixin):  # , HabitForm
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
     permission_classes = [IsAuthenticated]
@@ -225,33 +227,12 @@ class IsAuthorOrIsAuthenticated(permissions.BasePermission):  # (Voobshe ushlo p
         return obj.client == request.user
 
 
-# HabitForm.save(self=)
-
-# def create(self, request, *args, **kwargs):
-#     serializer = self.get_serializer(data=request.data)
-#     serializer.is_valid(raise_exception=True)
-#     self.perform_create(serializer)
-#     headers = self.get_success_headers(serializer.data)
-#     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-# def smth(self, request):
-#     if request.method == 'POST':
-#         if HabitForm.is_valid():
-#             try:
-#                 HabitForm.save()
-#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-#             except:
-#                 pass
-#     else:
-#         raise ValidationError
-
-
-#     permission_classes = (RulesCreateLesson,)
-class Habit_updateAPIView(generics.UpdateAPIView, UpdateModelMixin):
+class HabitUpdateAPIView(generics.UpdateAPIView, UpdateModelMixin):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
 
-class Habit_deleteAPIView(generics.DestroyAPIView, DestroyModelMixin):
+class HabitDeleteAPIView(generics.DestroyAPIView, DestroyModelMixin):
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
 
@@ -305,57 +286,7 @@ class UserView(
         return super(UserView, self).form_valid()
 
 
-# class HabitUpdateViewWithSubject(CreateView):
-#     model = Habit
-#     form_class = HabitForm
-#     success_url = reverse_lazy('mailing:Client_list')
-#     template_name = 'mailing/user_withsubject.html'
-# #
-# #     # def clean_product_content(self):
-# #     #     t = ['казинo', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-# #     #     if self.request.method == 'POST':
-# #     #         # form = ProductForm(request.POST, request.FILES)
-# #     #         for i in t:
-# #     #             if self.product_content == i:
-# #     #                 raise ValueError('Nedopustimie slova')
-# #     # def get_success_url(self):
-# #     #     return reverse('catalog:Product_list', args=[self.object.pk])
-# #
-#     def get_context_data(self, **kwargs):
-#         context_data = super().get_context_data(**kwargs)
-#         FormSet = inlineformset_factory(self.model, Subject, form=SubjectForm, extra=1)
-#
-#         if self.request.method == 'POST':
-#             formset = FormSet(self.request.POST, instance=self.object)
-#         else:
-#             formset = FormSet(instance=self.object)
-#
-#         context_data['formset'] = formset
-#         return context_data
-#
-#     def form_valid(self, form):
-#         f = Subject.objects.all().filter(name_id=self.request.user.id) ##Otsilaem po emeilam otnosyashimsya k activnomu polzovatelu
-#         context_data = self.get_context_data()
-#         formset = context_data['formset']
-#         # print(self.request.method)
-#         with transaction.atomic():
-#             self.object = form.save()
-#             if formset.is_valid():
-#                 formset.instance = self.object
-#                 formset.save()
-#                 # print(self.object.link)
-#                 for i in f:
-#                     print(i.email)
-#                     print('form.instance ', form.instance, 'i.period ------------', i.period) ##ne menyaetsya period v subjecte
-#                     # time.sleep(Subject.period(self.request.user))
-#                     # send(i.email)
-#                 # send(form.instance.link)
-#
-#             else:
-#                 return super(UserUpdateViewWithSubject, self).form_invalid(form)
-#         return super(UserUpdateViewWithSubject, self).form_valid(form)
-
-class UserUpdateViewWithHabit(CreateView):#Nuzhen UpdateView
+class UserUpdateViewWithHabit(CreateView):  # Nuzhen UpdateView
     model = User
     form_class = UserForm
     success_url = reverse_lazy('mailing:Client_list')
@@ -368,16 +299,6 @@ class UserUpdateViewWithHabit(CreateView):#Nuzhen UpdateView
             self.object.save()
         return super(UserUpdateViewWithHabit, self).form_valid()
 
-    #     # def clean_product_content(self):
-    #     #     t = ['казинo', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар']
-    #     #     if self.request.method == 'POST':
-    #     #         # form = ProductForm(request.POST, request.FILES)
-    #     #         for i in t:
-    #     #             if self.product_content == i:
-    #     #                 raise ValueError('Nedopustimie slova')
-    #     # def get_success_url(self):
-    #     #     return reverse('catalog:Product_list', args=[self.object.pk])
-    #
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         FormSet = inlineformset_factory(self.model, Habit, form=HabitForm, extra=1)

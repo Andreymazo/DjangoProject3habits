@@ -137,11 +137,11 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.getenv('DB_NAME'),
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres', #os.getenv('DB_NAME'),
-        'HOST':'db', # os.getenv('DB_HOST'),#
-        'PORT': '5432', #os.getenv('DB_PORT'),
-        'USER': 'postgres', #os.getenv('DB_USERNAME'),
-        'PASSWORD': '123456', # os.getenv('DB_PASSWORD'),
+        'NAME': os.getenv('DB_NAME'),
+        'HOST': os.getenv('DB_HOST'),#'db',
+        'PORT': os.getenv('DB_PORT'),
+        'USER': os.getenv('DB_USERNAME'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
     }
 }
 
@@ -183,12 +183,6 @@ STATIC_FILES_DIRS = (
 )
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
-
-# CELERY_BROKER_URL = 'redis://6379:6379/0'
-# CELERY_BROKER_URL = "redis://0001:6379/1"
-# CELERY_TIMEZONE = "Europe/Moscow"
-# CELERY_TASK_TRACK_STARTED = True
-# CELERY_TASK_TIME_LIMIT = 30 * 60
 
 
 # Default primary key field type
